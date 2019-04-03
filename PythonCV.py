@@ -1,12 +1,3 @@
-import pandas as pd 
-
-data = pd.read_csv(r"C:\Users\Francis\Documents\KidneyTest2.csv")
-
-
-
-
-
-
 def Mahalanobis_stratified_CV(data, y, pca_var, nfolds):
 
 
