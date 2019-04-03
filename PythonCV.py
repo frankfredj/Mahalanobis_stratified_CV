@@ -196,19 +196,39 @@ def Mahalanobis_stratified_CV(data, y, pca_var, nfolds):
 		folds[i] = folds[i].astype(int)
 
 
+	y_vecs = []
+
+	for i in folds:
+		y_vecs.append(y[i])
+
+	metrics = np.empty(shape = (len(y_vecs), 4))
+
+	count = 0
+
+	from scipy.stats import kurtosis
+	from scipy.stats import skew
+
+	for i in y_vecs:
+
+		metrics[count,0] = np.mean(np.array(i))
+		metrics[count,1] = np.std(np.array(i))
+		metrics[count,2] = skew(np.array(i))
+		metrics[count,3] = kurtosis(np.array(i))
+
+		count += 1
+
+
+	metrics_final = np.empty(shape = 4)
+
+	for i in range(0,4):
+
+		metrics_final[i] = np.std(metrics[:,i]) / np.mean(metrics[:,i])
+
+
+	print("Coefficient of variation (MEAN): " + str(round(metrics_final[0], 5)))
+	print("Coefficient of variation (SD): " + str(round(metrics_final[1], 5)))
+	print("Coefficient of variation (SKEW): " + str(round(metrics_final[2], 5)))
+	print("Coefficient of variation (KURT): " + str(round(metrics_final[3], 5)))
+
+
 	return folds
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
